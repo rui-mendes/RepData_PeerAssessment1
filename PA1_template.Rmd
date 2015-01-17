@@ -60,7 +60,7 @@ min(activityData$date)
 max(activityData$date)
 ```
 
-#### What is mean total number of steps taken per day?
+#### What is mean of total number of steps taken per day?
 For this part of the assignment, we can ignore the missing values in the dataset.
  
  1. Make a histogram of the total number of steps taken each day
@@ -68,7 +68,7 @@ For this part of the assignment, we can ignore the missing values in the dataset
  
 ```{r echo=TRUE, fig.width=10}
 ## Aggregate number of steps per each day using sum function
-stepsPerDay <- aggregate(steps ~ date, data = activityData, FUN = sum)
+stepsPerDay <- aggregate(steps ~ date, data = activityData, FUN = sum, na.action=na.omit)
 
 ## Plot the histogram of the total number of steps taken each day
 barplot(stepsPerDay$steps, main="Graph of Total Steps taken per Day", names.arg = stepsPerDay$date, 
@@ -79,6 +79,22 @@ mean(stepsPerDay$steps)
 ## Calculate the median of total number of steps taken per day
 median(stepsPerDay$steps)
 ```
+
+#### What is the average daily activity pattern?
+ 1. Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
+ 2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
+
+```{r echo=TRUE, fig.width=10}
+## Aggregate te number of steps per interval using the mean function
+stepsByInterval <- aggregate(steps ~ interval, data = activityData, FUN = mean, na.action=na.omit)
+## Make the series plot of Average Steps against Interval
+plot(stepsByInterval, type = "l", main="Time-Series of Average Steps against Interval", xlab="5-minute Interval",
+      ylab="Average Steps (average across all days)")
+
+## Calculate 5-minute interval that contains the maximum number of steps
+stepsByInterval$interval[which.max(stepsByInterval$steps)]
+```
+
 
 
 
