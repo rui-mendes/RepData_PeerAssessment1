@@ -19,3 +19,25 @@ activityData <- read.csv("data/activity.csv")
 
 ```
 
+### Exploring and summarizing the loaded data
+See a little sample of the data and class of all data columns in order to find out what transformations need to be done.  
+Also checking the number of `NAs` in the steps column
+```{r echo=TRUE}
+## List the first 5 elements
+head(activityData, 5)
+
+## List the last 5 elements
+tail(activityData, 5)
+
+## Checking the summary of all data columns
+summary(activityData)
+
+## Checking the class of all data columns
+str(activityData)
+
+## Checking the number of NAs in the steps column
+table(is.na(activityData$steps))
+```
+
+
+
