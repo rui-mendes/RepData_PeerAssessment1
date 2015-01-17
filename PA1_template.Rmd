@@ -9,7 +9,7 @@ output:
 
 ---
 
-### Loading and preprocessing the data
+#### Loading and preprocessing the data
 
 ###### Loading the csv file (using `read.csv` method) into a data.frame `activityData`.  
 
@@ -19,7 +19,7 @@ activityData <- read.csv("data/activity.csv")
 
 ```
 
-### Exploring and summarizing the loaded data
+#### Exploring and summarizing the loaded data
 See a little sample of the data and class of all data columns in order to find out what transformations need to be done.  
 Also checking the number of `NAs` in the steps column
 ```{r echo=TRUE}
@@ -37,6 +37,27 @@ str(activityData)
 
 ## Checking the number of NAs in the steps column
 table(is.na(activityData$steps))
+```
+
+
+#### Process/transform the data into a format suitable for our analysis
+As we saw in the last step, the date colum must to be converted to date format
+```{r echo=TRUE}
+## Convert 'steps' column to numerical
+steps_as_numeric <- as.numeric(activityData$steps)
+activityData[,1] <- steps_as_numeric
+
+## Convert 'date' column to Date type
+date_as_date <- as.Date(activityData$date)
+activityData[,2] <- date_as_date
+
+## Convert 'interval' column to numerical
+interval_as_numeric <- as.numeric(activityData$interval)
+activityData[,3] <- interval_as_numeric
+
+## Check the interval of dates of teh study
+min(activityData$date)
+max(activityData$date)
 ```
 
 
