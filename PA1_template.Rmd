@@ -146,5 +146,35 @@ median(stepsPerDayNAsFilled$steps)
 ```
 The impact of the missing data seems to be very small, at least when estimating the total number of steps per day.
 
+#### Are there differences in activity patterns between weekdays and weekends?
 
+ 1. Create a new factor variable in the dataset with two levels – “weekday” and “weekend” indicating whether a given date is a weekday or weekend day.
+```{r}
+## Function to check if date day beongs to the week or weekend
+dayType <- function(date) {
+    ## My system was in Portugues, so I had to add weekend days in portuguese
+    if (weekdays(as.Date(date)) %in% c("Saturday", "Sunday", "Sábado", "Domingo")) {
+        "weekend"
+    } else {
+        "weekday"
+    }
+}
 
+## Populate day_type column with the correct day type (weekend or weekday)
+activityData$daytype <- as.factor(sapply(activityData$date, dayType))
+```
+
+ 2. Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).
+
+```{r, fig.width=10, fig.height=10}
+## Plot window with 2 rows and 1 column
+par(mfrow=c(2,1))
+## Create the 2 plots per each type
+for (type in c("weekend", "weekday")) {
+    stepstype <- aggregate(steps ~ interval, data=activityData,
+                            subset=activityData$daytype==type, FUN=mean)
+    plot(stepstype, type="l", main=paste("Time-Series of Average Steps against Interval across all", type, "days"),
+         xlab="5-minute Interval", ylab="Average Steps (average across all days)")
+}
+
+```
